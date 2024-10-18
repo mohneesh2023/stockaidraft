@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Prediction</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        img {
+            max-width: 80%;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stock Price Prediction</h1>
+
+        <!-- Form to upload model and csv file -->
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <label for="csv-file">Upload CSV File (Optional):</label>
+            <input type="file" id="csv-file" name="csv_file" accept=".csv"><br><br>
+
+            <label for="model-file">Upload Trained Model (.h5):</label>
+            <input type="file" id="model-file" name="model_file" accept=".h5" required><br><br>
+
+            <input type="submit" value="Upload and Predict">
+        </form>
+    </div>
+
+    <!-- Larger Prediction Graph Preview below the main container -->
+    <div>
+        <h2>Prediction Graph:</h2>
+        <img id="prediction-graph" src="{{ url_for('static', filename='prediction.png') }}" alt="Prediction Graph">
+    </div>
+
+    <script>
+        // JavaScript for Model File Check
+        document.getElementById('model-file').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file && file.name.endsWith('.h5')) {
+                console.log("Model file uploaded:", file.name);
+            } else {
+                alert("Please upload a valid .h5 model file.");
+                event.target.value = ''; // Reset the input
+            }
+        });
+    </script>
+</body>
+</html>
